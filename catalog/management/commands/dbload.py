@@ -5,11 +5,11 @@ import os
 
 
 class Command(BaseCommand):
-    data_path = os.path.abspath('catalog_data.json')
+    data_path = os.path.abspath("catalog_data.json")
 
     @staticmethod
     def get_data():
-        with open(Command.data_path, encoding='utf-8') as file:
+        with open(Command.data_path, encoding="utf-8") as file:
             data_str = file.read()
             data = json.loads(data_str)
         return data
@@ -19,9 +19,12 @@ class Command(BaseCommand):
         data = Command.get_data()
         res_list = []
         for item in data:
-            if item['model'] == 'catalog.category':
-                data_dict = {'pk': item['pk'], 'name': item['fields']['name'],
-                             'description': item['fields']['description']}
+            if item["model"] == "catalog.category":
+                data_dict = {
+                    "pk": item["pk"],
+                    "name": item["fields"]["name"],
+                    "description": item["fields"]["description"],
+                }
                 res_list.append(data_dict)
         return res_list
 
@@ -30,11 +33,17 @@ class Command(BaseCommand):
         data = Command.get_data()
         res_list = []
         for item in data:
-            if item['model'] == 'catalog.product':
-                category = Category.objects.get(pk=item['fields']['category'])
-                data_dict = {'pk': item['pk'], 'name': item['fields']['name'], 'category': category,
-                             'avatar': item['fields']['avatar'], 'price': item['fields']['price'],
-                             'created_at': item['fields']['created_at'], 'updated_at': item['fields']['updated_at']}
+            if item["model"] == "catalog.product":
+                category = Category.objects.get(pk=item["fields"]["category"])
+                data_dict = {
+                    "pk": item["pk"],
+                    "name": item["fields"]["name"],
+                    "category": category,
+                    "avatar": item["fields"]["avatar"],
+                    "price": item["fields"]["price"],
+                    "created_at": item["fields"]["created_at"],
+                    "updated_at": item["fields"]["updated_at"],
+                }
                 res_list.append(data_dict)
         return res_list
 
@@ -50,4 +59,3 @@ class Command(BaseCommand):
         for product_item in product_list:
             product_for_create.append(Product(**product_item))
         Product.objects.bulk_create(product_for_create)
-
