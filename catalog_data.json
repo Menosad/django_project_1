@@ -1,0 +1,66 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "мячи",
+        "description": "круглые приспособления для подвижных игр"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "щиты",
+        "description": "средневековое вооружение ближнего боя, для активной защиты от атак холодным оружием"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "баскетбольный мяч",
+        "category": 1,
+        "avatar": "products/Без_названия.jpg",
+        "price": 500,
+        "created_at": "2024-06-15T17:14:37.272Z",
+        "updated_at": "2024-06-15T17:14:37.272Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "футбольный мяч",
+        "category": 1,
+        "avatar": "products/футбольный.jpg",
+        "price": 600,
+        "created_at": "2024-06-15T17:14:37.272Z",
+        "updated_at": "2024-06-15T17:14:37.272Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "мяч для гольфа",
+        "category": 1,
+        "avatar": "products/гольфа.jpg",
+        "price": 1000,
+        "created_at": "2024-06-15T17:14:37.272Z",
+        "updated_at": "2024-06-15T17:14:37.272Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "башенный щит",
+        "category": 2,
+        "avatar": "products/башенный.jpg",
+        "price": 2300,
+        "created_at": "2024-06-15T17:14:37.272Z",
+        "updated_at": "2024-06-15T17:14:37.272Z"
+    }
+}
+]
