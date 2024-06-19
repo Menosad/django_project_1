@@ -1,57 +1,52 @@
 {% extends 'catalog/base.html' %}
 {% block content%}
-<div class="row bg-primary text-center">
-    <h1 class="text-light">
-        КОНТАКТЫ
-    </h1>
-</div>
 <div class="row">
-    <div class="container-fluid">
-        <nav class="nav nav-pills flex-column flex-sm-row mt-1">
-            <a class="flex-sm-fill text-sm-center nav-link" href="/">Каталог</a>
-            <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="/contacts/">Контакты</a>
-        </nav>
-    </div>
-</div>
-<div class="row">
-    <div class="col-6">
-        <div class="container mt-2">
-            <div class="card">
-                <div class="card-header">
-                    <p class="fw-bolder">СВЯЗАТЬСЯ С НАМИ</p>
+<!--    <div class="album py-5 bg-light">-->
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-6">
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="fw-bolder">СВЯЗАТЬСЯ С НАМИ</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">+7-499-888-77-55</li>
+                                <li class="list-group-item">mail@example.com</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">+7-499-888-77-55</li>
-                    <li class="list-group-item">mail@example.com</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="container mt-2">
-            <div class="card">
-                <div class="card-header">
-                    <p class="fw-bold">СВЯЗАТЬСЯ С ВАМИ</p>
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-1">
-                            <label for="UserName" class="form-label">Имя</label>
-                            <input name="UserName" type="text" class="form-control" id="UserName" placeholder="Юра">
+                <div class="col-6">
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="fw-bold">СВЯЗАТЬСЯ С ВАМИ</p>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-1">
+                                        <label for="UserName" class="form-label">Имя</label>
+                                        <input name="UserName" type="text" class="form-control" id="UserName"
+                                               placeholder="Юра">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="UserEmail" class="form-label">Email</label>
+                                        <input name="UserEmail" type="email" class="form-control" id="UserEmail"
+                                               aria-describedby="emailHelp" placeholder="email@example.com">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="UserPhone" class="form-label">Ваш номер телефона</label>
+                                        <input name="UserPhone" type="text" class="form-control" id="UserPhone"
+                                               placeholder="+79998887766">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Отправить</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="mb-1">
-                            <label for="UserEmail" class="form-label">Email</label>
-                            <input name="UserEmail" type="email" class="form-control" id="UserEmail"
-                                   aria-describedby="emailHelp" placeholder="email@example.com">
-                        </div>
-                        <div class="mb-1">
-                            <label for="UserPhone" class="form-label">Ваш номер телефона</label>
-                            <input name="UserPhone" type="text" class="form-control" id="UserPhone"
-                                   placeholder="+79998887766">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Отправить</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
+<!--</div>-->
+{% endblock %}
