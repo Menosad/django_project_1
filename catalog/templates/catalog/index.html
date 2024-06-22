@@ -1,26 +1,30 @@
 {% extends 'catalog/base.html' %}
-{% block content %}
-    <div class="album py-5 bg-light">
-        <div class="container">
-            <div class="row">
-                {% for prod in products_list %}
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top"
-                             data-src=""
-                             alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">{{ prod.name }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-dark">перейти</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+{% load my_tags %}
+{% block  content %}
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for prod in products_list %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <img src="{{ prod.avatar | media_filter }}">
+            <div class="card-body">
+                <p class="card-text truncate">{{ prod.name }}</p>
+                <div class="d-grid gap-2 d-md-block">
+                    <a class="btn btn-primary" href="{% url 'catalog:product' prod.id %}" type="button">подробнее</a>
+                    <button class="btn btn-sucess" type="button">в корзину</button>
                 </div>
-                {% endfor %}
             </div>
         </div>
     </div>
+    {% endfor %}
+</div>
+<style>
+   .truncate {
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+   }
+  </style>
+
 {% endblock %}

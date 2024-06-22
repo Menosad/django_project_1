@@ -1,0 +1,26 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="card shadow-sm">
+            <p class="aligncenter">
+                <img src="{{ prod.avatar | media_filter }}" width=300>
+            </p>
+            <div class="card-body">
+                <p class="card-text">{{ prod.name }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .aligncenter {
+        text-align: center;
+    }
+</style>
+{% endblock %}
