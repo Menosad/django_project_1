@@ -8,7 +8,7 @@
         <div class="card shadow-sm">
             <img src="{{ prod.avatar | media_filter }}">
             <div class="card-body">
-                <p class="card-text truncate">{{ prod.name }}</p>
+                <p class="card-text">{{ prod.name | name_filter }}</p>
                 <div class="d-grid gap-2 d-md-block">
                     <a class="btn btn-primary" href="{% url 'catalog:product' prod.id %}" type="button">подробнее</a>
                     <button class="btn btn-sucess" type="button">в корзину</button>
@@ -18,13 +18,4 @@
     </div>
     {% endfor %}
 </div>
-<style>
-   .truncate {
-    padding: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-   }
-  </style>
-
 {% endblock %}
