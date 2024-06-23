@@ -49,12 +49,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         category_list = Command.get_category_data()
-        product_list = Command.get_product_data()
         Category.objects.all().delete()
         category_for_create = []
         for category_item in category_list:
             category_for_create.append(Category(**category_item))
         Category.objects.bulk_create(category_for_create)
+        product_list = Command.get_product_data()
         product_for_create = []
         for product_item in product_list:
             product_for_create.append(Product(**product_item))
