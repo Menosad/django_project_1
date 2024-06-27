@@ -1,18 +1,23 @@
 {% extends 'catalog/base.html' %}
+{% load static %}
 {% block  content %}
+        <div class="container mb-2 mt-2">
+            <a class="btn btn-primary" href="{% url 'advertising:create' %}" role="button">Create</a>
+        </div>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    {% for obj in object_list %}
+    {% for prod in object_list %}
     <div class="col">
-
         <div class="card shadow-sm">
+            <img src="{{ prod.avatar }}">
             <div class="card-body">
-
-                <p class="card-text">{{ obj.name }}</p>
-                <p class="card-text">{{ obj.description }}</p>
-
+                <p class="card-text">{{ prod.name }}</p>
+                <div class="d-grid gap-2 d-md-block">
+                    <a class="btn btn-success" href="{% url 'advertising:detail' prod.pk %}" type="button">detail</a>
+                    <a class="btn btn-primary" href="{% url 'advertising:edit' prod.pk %}" type="button">edit</a>
+                    <a class="btn btn-danger" href="{% url 'advertising:delete' prod.pk %}" type="button">delete</a>
+                </div>
             </div>
         </div>
-
     </div>
     {% endfor %}
 </div>

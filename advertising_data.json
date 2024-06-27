@@ -1,0 +1,32 @@
+[
+{
+    "model": "advertising.advertising",
+    "pk": 1,
+    "fields": {
+        "name": "Тест 2",
+        "description": "Второй тест, редактирование.",
+        "duration": "7 00:00:00",
+        "avatar": ""
+    }
+},
+{
+    "model": "advertising.advertising",
+    "pk": 2,
+    "fields": {
+        "name": "Тест 1",
+        "description": "Тест первый, создание",
+        "duration": "7 00:00:00",
+        "avatar": ""
+    }
+},
+{
+    "model": "advertising.advertising",
+    "pk": 5,
+    "fields": {
+        "name": "Реклама",
+        "description": "Пустое поле для рекламы",
+        "duration": "7 00:00:00",
+        "avatar": ""
+    }
+}
+]
