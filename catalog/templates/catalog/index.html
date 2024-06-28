@@ -3,7 +3,7 @@
 {% block  content %}
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    {% for prod in products_list %}
+    {% for prod in object_list %}
     <div class="col">
         <div class="card shadow-sm">
             <img src="{{ prod.avatar | media_filter }}">
