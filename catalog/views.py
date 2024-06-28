@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, TemplateView, DetailView
+from django.views.generic import ListView, TemplateView, DetailView, CreateView
 
-from catalog.models import Product
+from catalog.models import Product, Blog
 
 
 class CatalogListView(ListView):
@@ -24,10 +24,12 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog/product.html'
 
-# def product(request, pk):
-#     prod = get_object_or_404(Product, pk=pk)
-#     context = {
-#         'prod': prod,
-#         'title': prod.name
-#     }
-#     return render(request, 'catalog/product.html', context)
+
+class BlogListView(ListView):
+    model = Blog
+
+
+class BlogCreateView(CreateView):
+    model = Blog
+    fields = ('title', 'content', 'preview',)
+    success_url = 'catalog:blog_list'
