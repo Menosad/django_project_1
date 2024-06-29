@@ -3,6 +3,10 @@
 </div>
  <div class="col">
         <div class="card shadow-sm">
+            <form method="post">
+                {% csrf_token %}
+
+            </form>
             <img src="{{ object.avatar | media_filter }}">
             <div class="card-body">
                 <p class="card-text">{{ object.name }}</p>

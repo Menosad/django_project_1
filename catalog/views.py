@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, DetailView, CreateView
 
 from catalog.models import Product, Blog
@@ -32,4 +33,4 @@ class BlogListView(ListView):
 class BlogCreateView(CreateView):
     model = Blog
     fields = ('title', 'content', 'preview',)
-    success_url = 'catalog:blog_list'
+    success_url = reverse_lazy('catalog:blog_list')
