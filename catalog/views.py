@@ -1,6 +1,13 @@
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, TemplateView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    ListView,
+    TemplateView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 from pytils.translit import slugify
 
 from catalog.models import Product, Blog
@@ -8,23 +15,23 @@ from catalog.models import Product, Blog
 
 class CatalogListView(ListView):
     model = Product
-    template_name = 'catalog/index.html'
+    template_name = "catalog/index.html"
 
 
 class CatalogTemplateView(TemplateView):
-    template_name = 'catalog/contacts.html'
+    template_name = "catalog/contacts.html"
 
     def post(self, *args, **kwargs):
-        name = self.request.POST.get('UserName')
-        mail = self.request.POST.get('UserEmail')
-        phone = self.request.POST.get('UserPhone')
+        name = self.request.POST.get("UserName")
+        mail = self.request.POST.get("UserEmail")
+        phone = self.request.POST.get("UserPhone")
         print(f"Запрос на обратную связь:\n{name}\n{mail}\n{phone}")
         return render(self.request, self.template_name)
 
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'catalog/product.html'
+    template_name = "catalog/product.html"
 
 
 class BlogListView(ListView):
@@ -38,7 +45,11 @@ class BlogListView(ListView):
 
 class BlogCreateView(CreateView):
     model = Blog
-    fields = ('title', 'content', 'preview',)
+    fields = (
+        "title",
+        "content",
+        "preview",
+    )
 
     def form_valid(self, form):
         if form.is_valid():
@@ -47,13 +58,17 @@ class BlogCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('catalog:detail', args=[self.kwargs.get('pk')])
+        return reverse("catalog:detail", args=[self.kwargs.get("pk")])
 
 
 class BlogUpdateView(UpdateView):
     model = Blog
-    fields = ('title', 'content', 'preview',)
-    success_url = reverse_lazy('catalog:blog_list')
+    fields = (
+        "title",
+        "content",
+        "preview",
+    )
+    success_url = reverse_lazy("catalog:blog_list")
 
     def form_valid(self, form):
         if form.is_valid():
@@ -62,7 +77,7 @@ class BlogUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('catalog:detail', args=[self.kwargs.get('pk')])
+        return reverse("catalog:detail", args=[self.kwargs.get("pk")])
 
 
 class BlogDetailView(DetailView):
@@ -77,4 +92,4 @@ class BlogDetailView(DetailView):
 
 class BlogDeleteView(DeleteView):
     model = Blog
-    success_url = reverse_lazy('catalog:blog_list')
+    success_url = reverse_lazy("catalog:blog_list")
