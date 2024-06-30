@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, TemplateView, DetailView, CreateView
+from django.urls import reverse
+from django.views.generic import ListView, TemplateView, DetailView, CreateView, UpdateView
 
 from catalog.models import Product, Blog
 
@@ -32,4 +33,15 @@ class BlogListView(ListView):
 class BlogCreateView(CreateView):
     model = Blog
     fields = ('title', 'content', 'preview',)
-    success_url = 'catalog:blog_list'
+
+
+class BlogUpdateView(UpdateView):
+    model = Blog
+    fields = ('title', 'content', 'preview',)
+
+    def get_success_url(self):
+        return reverse('catalog:detail', args=[self.kwargs.get('pk')])
+
+
+class BlogDetailView(DetailView):
+    model = Blog

@@ -13,9 +13,11 @@
             <img src="{{ prod.preview | media_filter }}">
             <div class="card-body">
                 <p class="card-text">{{ prod.title }}</p>
-                <p class="card-text">{{ prod.content }}</p>
+                <p class="card-text">{{ prod.content| name_filter }}</p>
             </div>
         </div>
+        <a href="{% url 'catalog:detail' prod.pk %}" class="btn btn-secondary">more</a>
+        <a href="{% url 'catalog:edit' prod.pk %}" class="btn btn-secondary">edit</a>
     </div>
 </div>
 {% endfor %}
