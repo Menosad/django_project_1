@@ -52,7 +52,7 @@ class Blog(models.Model):
     preview = models.ImageField(upload_to='blogs', **NULLABLE, verbose_name='превью')
     created_at = models.DateTimeField(auto_now=True, verbose_name='дата создания')
     update_at = models.DateTimeField(auto_now_add=True, verbose_name='дата редактирования')
-    is_published = models.BooleanField(verbose_name='опубликовано', default=False)
+    is_published = models.BooleanField(verbose_name='опубликовано', default=True)
     views = models.IntegerField(verbose_name='просмотры', default=0)
 
     def __str__(self):

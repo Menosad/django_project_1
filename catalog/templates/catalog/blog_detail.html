@@ -1,12 +1,18 @@
 {% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block  content %}
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+<div class="container mb-2 mt-2">
+  <div class="d-grid gap-2">
+      <a href="{% url 'catalog:blog_list' %}" class="btn btn-secondary">Blogs</a>
+</div>
+<div class="row">
     <div class="col">
         <div class="card shadow-sm">
             <img src="{{ object.preview | media_filter }}">
+
             <div class="card-body">
-                <p class="card-text">{{ object.title }}</p>
+                <p>views: {{ object.views }}</p>
+                <p class="card-text"><h3>{{ object.title }} ({{ object.slug }})</h3></p>
                 <p class="card-text">{{ object.content }}</p>
             </div>
         </div>

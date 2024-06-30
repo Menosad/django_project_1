@@ -3,7 +3,7 @@
 </div>
  <div class="col">
         <div class="card shadow-sm">
-            <form class="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button class="btn btn-primary" type="submit">Сохранить</button>
