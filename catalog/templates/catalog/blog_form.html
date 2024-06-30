@@ -3,17 +3,11 @@
 </div>
  <div class="col">
         <div class="card shadow-sm">
-            <img src="{{ object.avatar | media_filter }}">
-            <div class="card-body">
-                <p class="card-text">{{ object.name }}</p>
-                <p class="card-text">{{ object.description }}</p>
-                <div class="d-grid gap-2 d-md-block">
-                    <a class="btn btn-primary" href="{% url 'catalog:product' object.pk %}" type="button">подробнее</a>
-                    <button class="btn btn-sucess" type="button">в корзину</button>
-                </div>
-            </div>
+            <form class="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ object.as_p }}
+            </form>
         </div>
     </div>
-{% endfor %}
 </div>
 {% endblock %}
