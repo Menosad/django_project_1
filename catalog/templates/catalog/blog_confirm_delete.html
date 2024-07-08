@@ -1,0 +1,16 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block  content %}
+<div class="row">
+    <div class="col">
+        <div class="container">
+            <form method="POST">{% csrf_token %}
+                <p>
+                <h3>Delete {{ object.title }}?</h3></p>
+                <button class="btn btn-danger" type="submit">DELETE</button>
+                <a class="btn btn-secondary" href="{% url 'catalog:blog_list' %}">CANCEL</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
