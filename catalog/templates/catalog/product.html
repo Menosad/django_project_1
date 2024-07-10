@@ -2,17 +2,23 @@
 {% load my_tags %}
 {% block content %}
 
- <div class="col">
-        <div class="card shadow-sm">
-            <img src="{{ object.avatar | media_filter }}">
-            <div class="card-body">
-                <p class="card-text">{{ object.name }}</p>
-                <p class="card-text">{{ object.description }}</p>
-                <div class="d-grid gap-2 d-md-block">
-                    <a class="btn btn-primary" href="{% url 'catalog:edit_product' object.pk %}" type="button">Редактировать</a>
-                    <button class="btn btn-sucess" type="button">в корзину</button>
-                </div>
+
+<div class="col text-center">
+    <div class="card shadow-sm">
+        <div class="block_size">
+            <div class="block_img">
+                <img src="{{ object.avatar | media_filter }}" class="filters__img">
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ object.name }}</p>
+            <p class="card-text">версия №{{ object.version_number }}</p>
+            <div class="d-grid gap-2 d-md-block">
+                <a class="btn btn-primary" href="{% url 'catalog:edit_product' object.pk %}"
+                   type="button">Редактировать</a>
+                <button class="btn btn-sucess" type="button">в корзину</button>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

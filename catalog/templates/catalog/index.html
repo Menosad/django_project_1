@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    {% for prod in object_list %}
+    {% for prod in filtered_objects_list %}
     <div class="col">
         <div class="card shadow-sm">
             <img src="{{ prod.avatar | media_filter }}">

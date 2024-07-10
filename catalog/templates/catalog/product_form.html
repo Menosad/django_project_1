@@ -1,9 +1,11 @@
 {% extends 'catalog/base.html' %}
 {% block  content %}
-<div class="row">
-    <div class="col-6">
-        <div class="card shadow-sm">
-            <form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data">
+    <div class="row">
+
+        <div class="col-6">
+            <div class="card shadow-sm">
+
                 {% csrf_token %}
                 {{ form.as_p }}
                 {% if object %}
@@ -11,20 +13,18 @@
                 {% else %}
                 <button class="btn btn-primary" type="submit">Сохранить</button>
                 {% endif %}
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="col-6">
-        <div class="card shadow-sm">
-            <form method="post">
+        <div class="col-6">
+            <div class="card shadow-sm">
                 {% csrf_token %}
                 {{ formset.management_form }}
                 {% for form in formset %}
                 {{ form.as_p }}
                 {% endfor %}
-            </form>
-
+            </div>
         </div>
+
     </div>
-</div>
+</form>
 {% endblock %}
