@@ -9,13 +9,15 @@ from catalog.views import (
     BlogCreateView,
     BlogDetailView,
     BlogUpdateView,
-    BlogDeleteView,
+    BlogDeleteView, ProductCreateView, ProductUpdateView,
 )
 
 app_name = MyappConfig.name
 
 urlpatterns = [
     path("", CatalogListView.as_view(), name="index"),
+    path("create_product", ProductCreateView.as_view(), name="create_product"),
+    path("edit_product/<int:pk>", ProductUpdateView.as_view(), name="edit_product"),
     path("contacts/", CatalogTemplateView.as_view(), name="contacts"),
     path("product/<int:pk>/", ProductDetailView.as_view(), name="product"),
     path("blog_list/", BlogListView.as_view(), name="blog_list"),

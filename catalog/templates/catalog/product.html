@@ -1,6 +1,7 @@
 {% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
+
  <div class="col">
         <div class="card shadow-sm">
             <img src="{{ object.avatar | media_filter }}">
@@ -8,7 +9,7 @@
                 <p class="card-text">{{ object.name }}</p>
                 <p class="card-text">{{ object.description }}</p>
                 <div class="d-grid gap-2 d-md-block">
-                    <a class="btn btn-primary" href="{% url 'catalog:product' object.pk %}" type="button">подробнее</a>
+                    <a class="btn btn-primary" href="{% url 'catalog:edit_product' object.pk %}" type="button">Редактировать</a>
                     <button class="btn btn-sucess" type="button">в корзину</button>
                 </div>
             </div>
