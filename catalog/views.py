@@ -15,7 +15,7 @@ from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Blog, Version
 
 
-class CatalogListView(ListView):
+class ProductListView(ListView):
     model = Product
     template_name = "catalog/index.html"
 
@@ -23,8 +23,16 @@ class CatalogListView(ListView):
         context = super().get_context_data(**kwargs)
         filtered_objects_list = []
         for object in context['object_list']:
-            if Product.objects.get(pk=object.pk).versions.filter(is_current=True):
-                filtered_objects_list.append(object)
+                product = Product.objects.get(pk=object.pk)
+                if Product.objects.get(pk=object.pk).versions.filter(is_current=True):
+                    product.version = Product.objects.get(pk=object.pk).versions.filter(is_current=True)
+                    if len(product.version) > 0:
+                        numb = 0
+                        for version in product.version:
+                            if version.number > numb:
+                                numb = version.number
+                        product.version =product.version.get(number=numb)
+                filtered_objects_list.append(product)
         context['filtered_objects_list'] = filtered_objects_list
         return context
 
@@ -87,7 +95,6 @@ class ProductUpdateView(UpdateView):
         if form.is_valid() and formset.is_valid():
             formset.instance = self.object
             formset.save()
-
         return super().form_valid(form)
 
     def get_success_url(self):

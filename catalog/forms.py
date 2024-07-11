@@ -36,6 +36,7 @@ class VersionForm(ValidationFormMixin, forms.ModelForm):
     class Meta:
         model = Version
         fields = '__all__'
+        #exclude = ('number',)
 
     def clean_name(self):
         name = self.cleaned_data.get('name').lower()
@@ -44,4 +45,10 @@ class VersionForm(ValidationFormMixin, forms.ModelForm):
                 raise forms.ValidationError(f"недопустимо использовать {word}")
         return name
 
-
+    def clean_is_current(self):
+        is_current = self.cleaned_data.get('is_current')
+        instance_pk = self.instance.product.pk
+        instance_versions = Product.objects.get(pk=instance_pk).versions.filter(is_current=True)
+        if is_current and len(instance_versions) > 1:
+            raise forms.ValidationError('ОШИБОЧКА!')
+        return is_current

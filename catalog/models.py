@@ -66,12 +66,12 @@ class Blog(models.Model):
 
 class Version(models.Model):
     name = models.CharField(max_length=150, verbose_name='название')
-    number = models.PositiveIntegerField(verbose_name='номер')
+    number = models.PositiveIntegerField(verbose_name='номер', **NULLABLE, default=0,)
     is_current = models.BooleanField(default=True, verbose_name='действующая')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='versions')
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
     class Meta:
         verbose_name = 'версия'
