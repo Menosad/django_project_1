@@ -44,11 +44,3 @@ class VersionForm(ValidationFormMixin, forms.ModelForm):
             if word in name:
                 raise forms.ValidationError(f"недопустимо использовать {word}")
         return name
-
-    def clean_is_current(self):
-        is_current = self.cleaned_data.get('is_current')
-        instance_pk = self.instance.product.pk
-        instance_versions = Product.objects.get(pk=instance_pk).versions.filter(is_current=True)
-        if is_current and len(instance_versions) > 1:
-            raise forms.ValidationError('ОШИБОЧКА!')
-        return is_current

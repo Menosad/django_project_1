@@ -9,16 +9,16 @@
     </div>
 </div>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    {% for prod in filtered_objects_list %}
+    {% for prod in prod_list %}
     <div class="col">
         <div class="card shadow-sm">
             <img src="{{ prod.avatar | media_filter }}">
             <div class="card-body">
                 <p class="card-text">{{ prod.name | name_filter }}</p>
-                {% if prod.version.name %}
-                <p class="card-text">активная версия: {{ prod.version.name }}</p>
+                {% if prod.version %}
+                <p class="card-text">актуальная версия: {{ prod.version.name }}</p>
                 {% else %}
-                <p class="card-text">активной версии нет </p>
+                <p class="card-text">актуальной версии нет </p>
                 {% endif %}
                 <div class="d-grid gap-2 d-md-block">
                     <a class="btn btn-primary" href="{% url 'catalog:product' prod.id %}" type="button">подробнее</a>

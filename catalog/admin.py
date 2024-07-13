@@ -27,5 +27,5 @@ class BlogAdmin(admin.ModelAdmin):
 
 @admin.register(Version)
 class AdminVersion(admin.ModelAdmin):
-    list_display = ('name', 'number', 'is_current', 'product',)
+    list_display = ('pk', 'name', 'number', 'is_current', 'product',)
     list_filter = ('name',)

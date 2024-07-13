@@ -21,19 +21,16 @@ class ProductListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        filtered_objects_list = []
+        prod_list = []
         for object in context['object_list']:
                 product = Product.objects.get(pk=object.pk)
                 if Product.objects.get(pk=object.pk).versions.filter(is_current=True):
-                    product.version = Product.objects.get(pk=object.pk).versions.filter(is_current=True)
-                    if len(product.version) > 0:
-                        numb = 0
-                        for version in product.version:
-                            if version.number > numb:
-                                numb = version.number
-                        product.version =product.version.get(number=numb)
-                filtered_objects_list.append(product)
-        context['filtered_objects_list'] = filtered_objects_list
+                    product.version = Product.objects.get(pk=object.pk).versions.filter(is_current=True).get()
+                    prod_list.append(product)
+                else:
+                    product.version = None
+                    prod_list.append(product)
+        context['prod_list'] = prod_list
         return context
 
 
@@ -52,6 +49,20 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = "catalog/product.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        obj = self.object
+        versions_list = Version.objects.filter(product__pk=obj.pk)
+        if len(versions_list) > 0:
+            context['versions_list'] = versions_list
+        version_query_set = Version.objects.filter(product__pk=obj.pk).filter(is_current=True)
+
+        if len(version_query_set) == 1:
+            version = version_query_set.get()
+            context['version'] = version
+        return context
+
+
 
 class ProductCreateView(CreateView):
     form_class = ProductForm
@@ -61,6 +72,7 @@ class ProductCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        object = self.object
         if self.request.method == "POST":
             context_data['formset'] = VersionFormset(self.request.POST)
         else:
@@ -92,10 +104,18 @@ class ProductUpdateView(UpdateView):
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
         self.object = form.save()
-        if form.is_valid() and formset.is_valid():
-            formset.instance = self.object
-            formset.save()
-        return super().form_valid(form)
+        num = 0
+        for version in formset.cleaned_data:
+            if version['is_current']:
+                num += 1
+        if num > 1:
+            form.add_error(None, 'У продукта не может быть больше одной актуальной версии')
+            return self.form_invalid(form)
+        else:
+            if form.is_valid() and formset.is_valid():
+                formset.instance = self.object
+                formset.save()
+                return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('catalog:product', args=[self.kwargs.get('pk')])
@@ -160,3 +180,24 @@ class BlogDetailView(DetailView):
 class BlogDeleteView(DeleteView):
     model = Blog
     success_url = reverse_lazy("catalog:blog_list")
+
+
+class VersionDetailView(DetailView):
+    model = Version
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = Product.objects.get(pk=self.object.product.pk)
+        context['product'] = product
+        return context
+
+
+class VersionDeleteView(DeleteView):
+    model = Version
+    success_url = 'catalog/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = Product.objects.get(pk=self.object.product.pk)
+        context['product'] = product
+        return context
