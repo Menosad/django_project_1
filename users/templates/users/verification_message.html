@@ -1,0 +1,11 @@
+{% extends 'catalog/base.html' %}
+{% block  content %}
+<div class="row">
+ <div class="col-6">
+        <div class="card shadow-sm">
+            {{ message }}
+        </div>
+     <a href="{% url 'users:users_login' %}" class="btn btn-primary">Добро</a>
+    </div>
+    </div>
+{% endblock %}

@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'catalog',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': '1337',
         'HOST': 'localhost',
         'PORT': "5432",
 
@@ -137,3 +137,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = 'yerizo.va@bk.ru'
+EMAIL_HOST_PASSWORD = 'cfm8UznQ36wgPmkjh4Dq'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+

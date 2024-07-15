@@ -9,8 +9,10 @@ class User(AbstractUser):
 
     nick_name = models.CharField(max_length=150, verbose_name='никнэйм')
     email = models.EmailField(unique=True, verbose_name='почта')
-    avatar = models.ImageField(**NULLABLE, verbose_name='аватарка')
+    avatar = models.ImageField(**NULLABLE, verbose_name='аватарка', upload_to='users/avatars')
     country = models.CharField(max_length=150, verbose_name='страна')
+
+    token = models.CharField(max_length=100, verbose_name='токен', **NULLABLE)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
