@@ -1,0 +1,19 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block  content %}
+<div class="row">
+    <div class="col-6">
+        <div class="card shadow-sm">
+            <img src="{{ object.avatar | media_filter }}">
+
+            <div class="card-body">
+                <p>Никнэйм: {{ object.nick_name }}</p>
+                <p class="card-text"><h3>Имя {{ object.first_name }})</h3></p>
+                <p class="card-text"><h3>Фамилия {{ object.last_name }})</h3></p>
+                <p class="card-text"><h3>Страна {{ object.country }})</h3></p>
+                <p class="card-text"><h3>Почта {{ object.email }})</h3></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -16,6 +16,7 @@
                         {% csrf_token %}
                         <button type="submit" class="btn-primary text-white">Выйти</button>
                     </form>
+                    <a href="{% url 'users:user_profile' %}" class="text-white"><h3>Профиль</h3></a>
                     {% else %}
                     <a href="{% url 'users:users_login' %}" class="text-white"><h3>Войти</h3></a>
                     <a href="{% url 'users:users_register' %}" class="text-white"><h3>Регистрация</h3></a>
