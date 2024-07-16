@@ -10,7 +10,7 @@ class UserRegisterForm(ValidationFormMixin, UserCreationForm):
         fields = ('email',)
 
 
-class UserProfileForm(UserChangeForm):
+class UserProfileForm(ValidationFormMixin, UserChangeForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'nick_name', 'country', 'email', 'avatar')

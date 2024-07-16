@@ -3,7 +3,7 @@ import secrets
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, UpdateView, DetailView, TemplateView
 
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
@@ -63,3 +63,20 @@ class UserDetail(DetailView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+def recover_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        user = User.objects.get(email=email)
+        password = User.objects.make_random_password()
+        user.set_password(password)
+        user.save(update_fields=['password'])
+        send_mail(
+             'Смена пароля',
+             f'Ваш новый пароль: {password}',
+             EMAIL_HOST_USER,
+             [user.email],
+        )
+        return redirect(reverse_lazy('users:users_login'))
+    return render(request, 'users/recover_password.html')
