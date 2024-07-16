@@ -63,7 +63,6 @@ class ProductDetailView(DetailView):
         return context
 
 
-
 class ProductCreateView(CreateView):
     form_class = ProductForm
     model = Product
@@ -72,7 +71,6 @@ class ProductCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-        object = self.object
         if self.request.method == "POST":
             context_data['formset'] = VersionFormset(self.request.POST)
         else:
@@ -83,6 +81,7 @@ class ProductCreateView(CreateView):
         formset = self.get_context_data()['formset']
         self.object = form.save()
         if form.is_valid() and formset.is_valid():
+            self.object.owner = self.request.user
             formset.instance = self.object
             formset.save()
         return super().form_valid(form)
@@ -141,7 +140,10 @@ class BlogCreateView(CreateView):
     def form_valid(self, form):
         if form.is_valid():
             obj = form.save()
+            user = self.request.user
+            obj.owner = user
             obj.slug = slugify(obj.title)
+            obj.save()
         return super().form_valid(form)
 
     def get_success_url(self):

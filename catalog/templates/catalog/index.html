@@ -15,6 +15,8 @@
             <img src="{{ prod.avatar | media_filter }}">
             <div class="card-body">
                 <p class="card-text">{{ prod.name | name_filter }}</p>
+                <p class="card-text">Цена: {{ prod.price }}</p>
+                <p class="card-text">Автор: {{ prod.owner }}</p>
                 {% if prod.version %}
                 <p class="card-text">актуальная версия: {{ prod.version.name }}</p>
                 {% else %}
