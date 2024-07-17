@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -63,10 +64,11 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     model = Product
     success_url = reverse_lazy('catalog:index')
+    login_url = 'users:users_login'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -87,9 +89,10 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProductForm
     model = Product
+    login_url = 'users:users_login'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -129,8 +132,9 @@ class BlogListView(ListView):
         return new_list
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
+    login_url = 'users:users_login'
     fields = (
         "title",
         "content",
@@ -150,8 +154,9 @@ class BlogCreateView(CreateView):
         return reverse("catalog:detail", args=[self.kwargs.get("pk")])
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
+    login_url = 'users:users_login'
     fields = (
         "title",
         "content",
@@ -194,9 +199,10 @@ class VersionDetailView(DetailView):
         return context
 
 
-class VersionDeleteView(DeleteView):
+class VersionDeleteView(LoginRequiredMixin, DeleteView):
     model = Version
     success_url = 'catalog/index.html'
+    login_url = 'users:users_login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
