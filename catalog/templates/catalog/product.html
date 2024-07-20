@@ -1,26 +1,60 @@
 {% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
+
 <div class="row">
-    <div class="col">
-        <div class="card shadow-sm">
-            <p class="aligncenter">
-                <img src="{{ prod.avatar | media_filter }}" width=300>
-            </p>
-            <div class="card-body">
-                <p class="card-text">{{ prod.name }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                </div>
+<div class="col-8 text-center">
+    <div class="card shadow-sm">
+        <div class="block_size">
+            <div class="block_img">
+                <img src="{{ object.avatar | media_filter }}" class="filters__img">
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text"> Название: {{ object.name }}</p>
+            <p class="card-text">Цена: {{ object.price }}</p>
+            {% if version %}
+            <p class="card-text">Актуальная версия: {{ version.name }}</p>
+            {% else %}
+            <p class="card-text">актуальной версии нет </p>
+            {% endif %}
+            <div class="d-grid gap-2 d-md-block">
+                <a class="btn btn-primary" href="{% url 'catalog:edit_product' object.pk %}"
+                   type="button">Редактировать</a>
+                <button class="btn btn-sucess" type="button">в корзину</button>
             </div>
         </div>
     </div>
 </div>
-<style>
-    .aligncenter {
-        text-align: center;
-    }
-</style>
+    <div class="col-4">
+        <div class="card">
+            {% if versions_list%}
+            <h3 class="text-center">Список версий</h3>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Название</th>
+                </tr>
+                </thead>
+                <body>
+                {% for version in versions_list %}
+                <tr>
+                    <th>{{ version.number }}</th>
+                    <th><a href="{% url 'catalog:version_detail' version.pk %}">{{ version.name }}</a></th>
+                    {% if version.is_current %}
+                    <th>актуальная</th>
+                    {% else %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </body>
+            </table>
+            </table>
+            {% else %}
+            <h3>Версий нет</h3>
+            {% endif %}
+        </div>
+    </div>
+    </div>
 {% endblock %}

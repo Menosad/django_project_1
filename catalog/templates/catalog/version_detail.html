@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block content %}
+
+
+<div class="col text-center">
+    <div class="card shadow-sm">
+        <div class="block_size">
+        </div>
+        <div class="card-body">
+            <p class="card-text"> номер версии: {{ object.number }}</p>
+            <p class="card-text">название версии: {{ object.name }}</p>
+            {% if object.is_current %}
+            <p class="text text-strong">Актуальная версия</p>
+            {% else %}
+            {% endif %}
+            <div class="d-grid gap-2 d-md-block">
+                <a class="btn btn-primary" href="{% url 'catalog:product' product.pk %}"
+                   type="button">{{ product.name }}</a>
+                <a href="{% url 'catalog:version_delete' object.pk %}" class="btn btn-secondary">удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

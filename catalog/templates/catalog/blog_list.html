@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block  content %}
+<div class="container mb-2 mt-2">
+  <div class="d-grid gap-2">
+      <a href="{% url 'catalog:create' %}" class="btn btn-secondary">ADD BLOG</a>
+</div>
+</div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for prod in object_list %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <img src="{{ prod.preview | media_filter }}" class="card-img-top">
+            <div class="card-body">
+                <p class="card-text">views: {{ prod.views }}</p>
+                <p class="card-text">{{ prod.title }}</p>
+                <p class="card-text">{{ prod.content| name_filter }}</p>
+            </div>
+        </div>
+        <a href="{% url 'catalog:detail' prod.pk %}" class="btn btn-secondary">more</a>
+        <a href="{% url 'catalog:edit' prod.pk %}" class="btn btn-secondary">edit</a>
+        <a href="{% url 'catalog:delete_blog' prod.pk %}" class="btn btn-secondary">delete</a>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}

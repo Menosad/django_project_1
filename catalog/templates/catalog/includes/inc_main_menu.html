@@ -6,15 +6,29 @@
                     <ul class="list-unstyled">
                         <li><a href="{% url 'catalog:index' %}" class="text-white"><h3>Catalog</h3></a></li>
                         <li><a href="{% url 'catalog:contacts' %}" class="text-white"><h3>Contacts</h3></a></li>
+                        <li><a href="{% url 'catalog:blog_list' %}" class="text-white"><h3>Blogs</h3></a></li>
                     </ul>
+                </div>
+                <div class="col-5"></div>
+                <div class="col-sm-3 py-4">
+                    {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'users:users_logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-primary text-white">Выйти</button>
+                    </form>
+                    <a href="{% url 'users:user_profile' %}" class="text-white"><h3>Профиль</h3></a>
+                    {% else %}
+                    <a href="{% url 'users:users_login' %}" class="text-white"><h3>Войти</h3></a>
+                    <a href="{% url 'users:users_register' %}" class="text-white"><h3>Регистрация</h3></a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
-            <a href="#" class="navbar-brand d-flex align-items-center">
-                <h3><strong>Меню</strong></h3>
+            <a href="/" class="navbar-brand d-flex align-items-center">
+                <h3><strong>Main</strong></h3>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
                     aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
