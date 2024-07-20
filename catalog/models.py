@@ -35,6 +35,7 @@ class Product(models.Model):
         auto_now=True, verbose_name="Дата последнего изменения"
     )
     owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='автор')
+    is_published = models.BooleanField(verbose_name='опубликовано', default=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -46,6 +47,9 @@ class Product(models.Model):
             "name",
             "category",
         )
+        permissions = [
+            ('set_published', 'Может редактировать статус публикации')
+        ]
 
 
 class Blog(models.Model):
@@ -67,6 +71,9 @@ class Blog(models.Model):
     class Meta:
         verbose_name = "блог"
         verbose_name_plural = "блоги"
+        permissions = [
+            ('set_published', 'Может редактировать статус публикации')
+        ]
 
 
 class Version(models.Model):

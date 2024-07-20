@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -46,7 +46,7 @@ class CatalogTemplateView(TemplateView):
         return render(self.request, self.template_name)
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "catalog/product.html"
 
@@ -64,11 +64,13 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = ProductForm
     model = Product
     success_url = reverse_lazy('catalog:index')
-    login_url = 'users:users_login'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -89,10 +91,15 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = ProductForm
     model = Product
     login_url = 'users:users_login'
+
+    def test_func(self):
+        pk = self.kwargs.get('pk')
+        owner = Product.objects.get(pk=pk).owner
+        return self.request.user == owner
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
