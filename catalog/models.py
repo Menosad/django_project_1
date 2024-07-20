@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+from users.models import User
 
 NULLABLE = {"null": True, "blank": True}
 
@@ -31,6 +34,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True, verbose_name="Дата последнего изменения"
     )
+    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='автор')
 
     def __str__(self):
         return f"{self.name}"
@@ -55,6 +59,7 @@ class Blog(models.Model):
     )
     is_published = models.BooleanField(verbose_name="опубликовано", default=True)
     views = models.IntegerField(verbose_name="просмотры", default=0)
+    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='автор')
 
     def __str__(self):
         return self.title

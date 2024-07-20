@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block  content %}
+<div class="row">
+    <div class="col-6">
+        <div class="card shadow-sm">
+            <img src="{{ object.avatar | media_filter }}">
+
+            <div class="card-body">
+                <p>Никнэйм: {{ object.nick_name }}</p>
+                <p class="card-text"><h3>{{ object.first_name }}</h3></p>
+                <p class="card-text"><h3>{{ object.last_name }}</h3></p>
+                <p class="card-text"><h3>{{ object.country }}</h3></p>
+                <p class="card-text"><h3>{{ object.email }}</h3></p>
+            </div>
+        </div>
+        <div class="card">
+            <a href="{% url 'users:user_edit' %}" class="btn btn-primary">Редактировать</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

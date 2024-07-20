@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -63,16 +64,15 @@ class ProductDetailView(DetailView):
         return context
 
 
-
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     model = Product
     success_url = reverse_lazy('catalog:index')
+    login_url = 'users:users_login'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-        object = self.object
         if self.request.method == "POST":
             context_data['formset'] = VersionFormset(self.request.POST)
         else:
@@ -83,14 +83,16 @@ class ProductCreateView(CreateView):
         formset = self.get_context_data()['formset']
         self.object = form.save()
         if form.is_valid() and formset.is_valid():
+            self.object.owner = self.request.user
             formset.instance = self.object
             formset.save()
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProductForm
     model = Product
+    login_url = 'users:users_login'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -130,8 +132,9 @@ class BlogListView(ListView):
         return new_list
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
+    login_url = 'users:users_login'
     fields = (
         "title",
         "content",
@@ -141,15 +144,19 @@ class BlogCreateView(CreateView):
     def form_valid(self, form):
         if form.is_valid():
             obj = form.save()
+            user = self.request.user
+            obj.owner = user
             obj.slug = slugify(obj.title)
+            obj.save()
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse("catalog:detail", args=[self.kwargs.get("pk")])
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
+    login_url = 'users:users_login'
     fields = (
         "title",
         "content",
@@ -192,9 +199,10 @@ class VersionDetailView(DetailView):
         return context
 
 
-class VersionDeleteView(DeleteView):
+class VersionDeleteView(LoginRequiredMixin, DeleteView):
     model = Version
     success_url = 'catalog/index.html'
+    login_url = 'users:users_login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

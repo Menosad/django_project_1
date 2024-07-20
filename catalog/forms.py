@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 from django.forms import BooleanField
 
 from catalog.models import Version, Product
@@ -44,3 +45,6 @@ class VersionForm(ValidationFormMixin, forms.ModelForm):
             if word in name:
                 raise forms.ValidationError(f"недопустимо использовать {word}")
         return name
+
+
+AuthenticationForm
