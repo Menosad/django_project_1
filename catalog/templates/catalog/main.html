@@ -1,0 +1,24 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block  content %}
+<div class="row">
+    <div class="col-12">
+    </div>
+</div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for cat in object_list %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <p class="card-text">{{ cat.name | name_filter }}</p>
+                <p class="card-text">Цена: {{ cat.description }}</p>
+                <p class="card-text">Товаров в категории: {{ cat.products_count }}</p>
+                <div class="d-grid gap-2 d-md-block">
+                    <a class="btn btn-primary" href="{% url 'catalog:product_list' cat.pk %}" type="button">перейти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

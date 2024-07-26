@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -13,26 +13,42 @@ from django.views.generic import (
 from pytils.translit import slugify
 
 from catalog.forms import ProductForm, VersionForm
-from catalog.models import Product, Blog, Version
+from catalog.models import Product, Blog, Version, Category
+from catalog.services import get_product_list_from_cache
+from config import settings
 
 
-class ProductListView(ListView):
-    model = Product
-    template_name = "catalog/index.html"
+class CategoriesListView(ListView):
+    model = Category
+    template_name = 'catalog/main.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        prod_list = []
-        for object in context['object_list']:
-                product = Product.objects.get(pk=object.pk)
-                if Product.objects.get(pk=object.pk).versions.filter(is_current=True):
-                    product.version = Product.objects.get(pk=object.pk).versions.filter(is_current=True).get()
-                    prod_list.append(product)
-                else:
-                    product.version = None
-                    prod_list.append(product)
-        context['prod_list'] = prod_list
+        for obj in context['object_list']:
+            obj.products_count = len(obj.products.all())
+            obj.save()
         return context
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+
+    def get_current_version_list(self, lst: list):
+        prod_list = []
+        for object in lst:
+            product = Product.objects.get(pk=object.pk)
+            if Product.objects.get(pk=object.pk).versions.filter(is_current=True):
+                product.version = Product.objects.get(pk=object.pk).versions.filter(is_current=True).get()
+            else:
+                product.version = None
+            prod_list.append(product)
+        return prod_list
+
+    def get_object(self, queryset=None):
+        cat = super().get_object()
+        cat.prod_list = get_product_list_from_cache(self.kwargs['pk'])
+        cat.save()
+        return cat
 
 
 class CatalogTemplateView(TemplateView):
@@ -67,7 +83,7 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
 class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = ProductForm
     model = Product
-    success_url = reverse_lazy('catalog:index')
+    success_url = reverse_lazy('catalog:main')
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -208,7 +224,7 @@ class VersionDetailView(DetailView):
 
 class VersionDeleteView(LoginRequiredMixin, DeleteView):
     model = Version
-    success_url = 'catalog/index.html'
+    success_url = 'catalog/category_detail.html'
     login_url = 'users:users_login'
 
     def get_context_data(self, **kwargs):

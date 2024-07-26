@@ -9,10 +9,10 @@
     </div>
 </div>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    {% for prod in prod_list %}
+    {% for prod in object.prod_list %}
     <div class="col">
         <div class="card shadow-sm">
-            <img src="{{ prod.avatar | media_filter }}">
+            <img src="{{ prod.avatar | media_filter }}" width="80%" height="70%">
             <div class="card-body">
                 <p class="card-text">{{ prod.name | name_filter }}</p>
                 <p class="card-text">Цена: {{ prod.price }}</p>
