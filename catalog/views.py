@@ -33,17 +33,6 @@ class CategoriesListView(ListView):
 class CategoryDetailView(DetailView):
     model = Category
 
-    def get_current_version_list(self, lst: list):
-        prod_list = []
-        for object in lst:
-            product = Product.objects.get(pk=object.pk)
-            if Product.objects.get(pk=object.pk).versions.filter(is_current=True):
-                product.version = Product.objects.get(pk=object.pk).versions.filter(is_current=True).get()
-            else:
-                product.version = None
-            prod_list.append(product)
-        return prod_list
-
     def get_object(self, queryset=None):
         cat = super().get_object()
         cat.prod_list = get_product_list_from_cache(self.kwargs['pk'])
